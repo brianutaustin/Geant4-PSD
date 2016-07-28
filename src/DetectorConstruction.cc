@@ -13,25 +13,30 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 }
 
 void DetectorConstruction::DefineMaterials() {
-	G4String name;
-	G4double density;
-	G4double z, a;
+	const G4int NUMENTRIES = 9;
+  G4double Scnt_PP[NUMENTRIES] = { 6.6*eV, 6.7*eV, 6.8*eV, 6.9*eV,
+                                   7.0*eV, 7.1*eV, 7.2*eV, 7.3*eV, 7.4*eV };
 
-	// Liquid Argon
-	density = 1.390*g/cm3;
-	a = 39.95*g/mole;
-	G4Material *lAr = new G4Material(name = "liquidArgon", z = 18., a, density);
+  G4double Scnt_FAST[NUMENTRIES] = { 0.000134, 0.004432, 0.053991, 0.241971,
+                                     0.398942, 0.000134, 0.004432, 0.053991,
+                                     0.241971 };
+  G4double Scnt_SLOW[NUMENTRIES] = { 0.000010, 0.000020, 0.000030, 0.004000,
+                                     0.008000, 0.005000, 0.020000, 0.001000,
+                                     0.000010 };
 
-	// Vacuum standard definition
-	density = universe_mean_density;
-	G4Material *vacuum = new G4Material(name = "Vacuum", z = 1., a = 1.01*g/mole, density);
+  G4Material* Scnt;
+  G4MaterialPropertiesTable* Scnt_MPT = new G4MaterialPropertiesTable();
 
-	// Display list of defined materials
-	G4cout << G4endl << *(G4Material::GetMaterialTable()) << G4endl;
+  Scnt_MPT->AddProperty("FASTCOMPONENT", Scnt_PP, Scnt_FAST, NUMENTRIES);
+  Scnt_MPT->AddProperty("SLOWCOMPONENT", Scnt_PP, Scnt_SLOW, NUMENTRIES);
 
-	// Default materials in setup
-	LiquidArgonMaterial = lAr;
-	VacuumMaterial = vacuum;
+  Scnt_MPT->AddConstProperty("SCINTILLATIONYIELD", 5000./MeV);
+  Scnt_MPT->AddConstProperty("RESOLUTIONSCALE", 2.0);
+  Scnt_MPT->AddConstProperty("FASTTIMECONSTANT",  1.*ns);
+  Scnt_MPT->AddConstProperty("SLOWTIMECONSTANT", 10.*ns);
+  Scnt_MPT->AddConstProperty("YIELDRATIO", 0.8);
+
+  Scnt->SetMaterialPropertiesTable(Scnt_MPT);
 }
 
 G4VPhysicalVolume *DetectorConstruction::ConstructDetector() {

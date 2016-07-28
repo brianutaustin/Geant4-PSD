@@ -34,7 +34,6 @@ int main(int argc,char** argv) {
 
 	runManager->Initialize();
 	G4UImanager *UI = G4UImanager::GetUIpointer();
-	UI->ApplyCommand("/control/execute init_vis.mac");
 
 	#ifdef G4VIS_USE
 	delete visManager;
