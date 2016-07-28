@@ -22,7 +22,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
 	G4double x0, y0, z0, theta, phi, xMom0, yMom0, zMom0, e0;
 
 	// Specify kinetic energy
-	e0 = 3*MeV;
+	e0 = 30*MeV;
 	particleGun->SetParticleEnergy(e0);
 
 	// Specify emission direction

@@ -40,10 +40,6 @@ private:
 		G4double TargetSizeX;
 		G4double TargetSizeY;
 		G4double TargetSizeZ;
-
-		// Material
-		G4Material *VacuumMaterial;
-		G4Material *LiquidArgonMaterial;
 };
 
 #endif

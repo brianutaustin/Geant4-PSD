@@ -13,25 +13,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 }
 
 void DetectorConstruction::DefineMaterials() {
-	G4String name;
-	G4double density;
-	G4double z, a;
 
-	// Liquid Argon
-	density = 1.390*g/cm3;
-	a = 39.95*g/mole;
-	G4Material *lAr = new G4Material(name = "liquidArgon", z = 18., a, density);
-
-	// Vacuum standard definition
-	density = universe_mean_density;
-	G4Material *vacuum = new G4Material(name = "Vacuum", z = 1., a = 1.01*g/mole, density);
-
-	// Display list of defined materials
-	G4cout << G4endl << *(G4Material::GetMaterialTable()) << G4endl;
-
-	// Default materials in setup
-	LiquidArgonMaterial = lAr;
-	VacuumMaterial = vacuum;
 }
 
 G4VPhysicalVolume *DetectorConstruction::ConstructDetector() {

@@ -1,9 +1,10 @@
 #ifndef PrimaryGeneratorAction_h
 #define PrimaryGeneratorAction_h 1
 
+#include "DetectorConstruction.hh"
+
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4ParticleGun.hh"
-#include "DetectorConstruction.hh"
 #include "G4Event.hh"
 #include "G4ParticleTable.hh"
 
