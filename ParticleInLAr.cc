@@ -2,6 +2,7 @@
 #include "G4UImanager.hh"
 #include "G4UIterminal.hh"
 #include "G4VisExecutive.hh"
+#include "G4UIExecutive.hh"
 
 #include "DetectorConstruction.hh"
 #include "PhysicsList.hh"
@@ -12,19 +13,22 @@
 
 int main(int argc,char** argv)
 {
-  // construct the default run manager
-  G4RunManager * runManager = new G4RunManager;
+  // Construct the default run manager
+  G4RunManager *runManager = new G4RunManager;
 
-  // set mandatory initialization classes
+  // Set mandatory initialization classes
   DetectorConstruction* detector = new DetectorConstruction;
   runManager->SetUserInitialization(detector);
   runManager->SetUserInitialization(new PhysicsList);
 
-  // visualization manager
+	G4cout << "-----> " << argc << G4endl;
+	for (G4int i = 0; i < argc; i++) G4cout << "-----> " << argv[i] << G4endl;
+
+  // Visualization manager
   G4VisManager* visManager = new G4VisExecutive;
   visManager->Initialize();
 
-  // set user action classes
+  // Set user action classes
 	PrimaryGeneratorAction *primary = new PrimaryGeneratorAction(detector);
   runManager->SetUserAction(primary);
 
@@ -33,26 +37,24 @@ int main(int argc,char** argv)
   runManager->SetUserAction(new EventAction(runaction));
   runManager->SetUserAction(new SteppingAction(runaction, detector, primary));
 
-  // get the pointer to the User Interface manager
-  G4UImanager* UI = G4UImanager::GetUIpointer();
+  // Set the pointer to the User Interface manager
+  G4UImanager* UImanager = G4UImanager::GetUIpointer();
+	G4UIExecutive* UI = new G4UIExecutive(argc, argv);
+	G4UIsession *UIterminal = new G4UIterminal;
 
-  if(argc==1)
-  // Define (G)UI terminal for interactive mode
-  {
-    G4UIsession * session = new G4UIterminal;
-    UI->ApplyCommand("/control/execute init_vis.mac");
-    session->SessionStart();
-    delete session;
-  }
-  else
-  // Batch mode
-  {
-    G4String command = "/control/execute ";
-    G4String fileName = argv[1];
-    UI->ApplyCommand(command+fileName);
+  if(argc == 1) {
+    // Command lines
+    UIterminal->SessionStart();
+		UImanager->ApplyCommand("/control/execute vis.mac");
+    delete UIterminal;
+	} else {
+    // Interactive (GUI)
+    UI->SessionStart();
+		UImanager->ApplyCommand("/control/execute vis.mac");
+		delete UI;
   }
 
-  // job termination
+  // Job termination
   delete visManager;
   delete runManager;
 

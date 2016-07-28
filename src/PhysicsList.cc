@@ -13,6 +13,9 @@
 #include "G4HadronInelasticQBBC.hh"
 #include "G4NeutronTrackingCut.hh"
 
-PhysicsList::PhysicsList() : G4VModularPhysicsList() {}
+PhysicsList::PhysicsList() : G4VModularPhysicsList() {
+
+  
+}
 
 PhysicsList::~PhysicsList() {}

@@ -22,6 +22,7 @@ public:
 private:
 	G4VPhysicalVolume *ConstructDetector();
 	void DefineMaterials();
+	void ConstructScintillator();
 
 	// Private members
 		// Detector's volumes
@@ -54,6 +55,7 @@ private:
 	G4Material* lAr;
 	G4Material* vac;
 	G4Material* coldAr;
+	G4Material* Scnt;
 };
 
 #endif
